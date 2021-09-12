@@ -1,0 +1,65 @@
+<head>
+  <title>Conversational Form Demo (@adriangohjw)</title>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/space10-community/conversational-form@1.0.1/dist/conversational-form.min.js" crossorigin></script>
+</head>
+
+<body>
+  <form id="my-form-element" cf-form>
+    <cf-robot-message cf-questions="Hello stranger 👋"></cf-robot-message>
+  
+    <input type="text" name="name" cf-questions="What is your name?" required />
+
+    <cf-robot-message cf-questions="Eww, what kind of name is <strong>{name}</strong>. Oh well, anyway..."></cf-robot-message>
+  
+    <fieldset cf-questions="What is your favourite band?">
+      <label for="fav-band-forests">Forests
+        <input type="radio" name="fav-band" id="fav-band-forests" value="Forests" cf-image="/assets/fav-band/forests.jpg">
+      </label>
+      <label for="fav-band-tmp">TMP
+        <input type="radio" name="fav-band" id="fav-band-tmp" value="TMP" cf-image="/assets/fav-band/tmp.jpg">
+      </label>
+      <label for="fav-band-xfr">Xingfoo&Roy
+        <input type="radio" name="fav-band" id="fav-band-xfr" value="Xingfoo&Roy" cf-image="/assets/fav-band/xfr.jpg">
+      </label>
+    </fieldset>
+
+    <cf-robot-message cf-questions="Wow, really? Totally not jugding you"></cf-robot-message>
+  
+    <!-- Conditional rendering based on answers from previous question -->
+    <select cf-questions="What is your favourite song by <strong>{fav-band}</strong> then?" cf-conditional-fav-band="Forests" name="fav-song" multiple>
+      <option value="Kawaii Hawaii">Kawaii Hawaii</option>
+      <option value="Tamago">Tamago</option>
+      <option value="Cup of Tea">Cup of Tea</option>
+      <option value="This Town Needs Fun">This Town Needs Fun</option>
+      <option value="Who Cares, Really?">Who Cares, Really?</option>
+    </select>
+    <select cf-questions="What is your favourite song by <strong>{fav-band}</strong> then?" cf-conditional-fav-band="TMP" name="fav-song" multiple>
+      <option value="Caution">Caution</option>
+      <option value="Always Focused">Always Focused</option>
+      <option value="Medicine">Medicine</option>
+      <option value="Birdhouse">Birdhouse</option>
+      <option value="Common Cold">Common Cold</option>
+    </select>
+    <select cf-questions="What is your favourite song by <strong>{fav-band}</strong> then?" cf-conditional-fav-band="Xingfoo&Roy" name="fav-song" multiple>
+      <option value="In Another Castle">In Another Castle</option>
+      <option value="Anchor Forever">Anchor Forever</option>
+      <option value="Kahlua">Kahlua</option>
+      <option value="So Is It Time to Grow up?">So Is It Time to Grow up?</option>
+      <option value="Aprendió Español">Aprendió Español</option>
+    </select>
+</body>
+
+<script>
+  window.onload = function() {
+    var conversationalForm = window.cf.ConversationalForm.startTheConversation({
+      formEl: document.getElementById("my-form-element"),
+      userImage: "/assets/userImage.jpg",
+      robotImage: "/assets/robotImage.jpeg",
+      submitCallback: function() {
+        console.log("Formdata, obj:", conversationalForm.getFormData(true));
+        conversationalForm.addRobotChatResponse("Thanks for telling me everything, I am selling your data to Zuck.\n\n <i>(You can also check dev console to see the data)</i>");
+        conversationalForm.addUserChatResponse("Wait what???");
+      }
+    });
+  };
+</script>
